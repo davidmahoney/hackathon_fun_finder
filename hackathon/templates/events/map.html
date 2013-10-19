@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Event Map{% endblock %}
+{% block content %}
+<div id="map">
+</div>
+<script type="text/javascript">
+var point_list = [
+{% for event in object_list %}
+    {{ event.location.json|safe }},
+{% endfor %}
+];
+var map = L.map('map').setView([53.9,-122.75], 12);
+//L.tileLayer('http://geo.rdffg.bc.ca/ArcGIS/rest/services/theMAPex/Roads/MapServer/tile/{z}/{y}/{x}/').addTo(map);
+L.tileLayer('http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}/').addTo(map);
+var layer = L.geoJson().addTo(map);
+layer.addData(point_list);
+</script>
+{% endblock %}
